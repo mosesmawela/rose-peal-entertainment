@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Palette - Deep Black, Rose, Pearl */
+  --color-brand-black: #050505;
+  --color-brand-charcoal: #121212;
+  --color-brand-rose: #e11d48;
+  --color-brand-pearl: #f5f5f5;
+  /* Updated to be lighter */
+  --color-brand-gold: #fbbf24;
+  --color-brand-white: #ffffff;
+  --color-brand-slate: #1e293b;
+
+  /* SKEKEUOMORPHIC SHADOWS - DARK (DEFAULT) */
+  --shadow-vinyl-groove: inset 0 0 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(255, 255, 255, 0.1);
+  --shadow-button-rest: 4px 4px 10px rgba(0, 0, 0, 0.6), -1px -1px 2px rgba(255, 255, 255, 0.15);
+  --shadow-button-pressed: inset 2px 2px 5px rgba(0, 0, 0, 0.8), inset -1px -1px 2px rgba(255, 255, 255, 0.05);
+
+  /* Semantic Interface Colors - Default to Dark */
+  --background: var(--color-brand-black);
+  --foreground: var(--color-brand-pearl);
+  --surface-vinyl: #1a1a1a;
+  --surface-glass: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  /* Animations */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Light Theme Overrides */
+.light {
+  --background: var(--color-brand-pearl);
+  --foreground: var(--color-brand-black);
+
+  --surface-vinyl: #e2e2e2;
+  --surface-glass: rgba(0, 0, 0, 0.03);
+  --border-color: rgba(0, 0, 0, 0.08);
+
+  /* Shadows for light mode need to be inverted/softer */
+  --shadow-vinyl-groove: inset 0 0 10px rgba(0, 0, 0, 0.1), 0 0 2px rgba(255, 255, 255, 0.5);
+  --shadow-button-rest: 4px 4px 10px rgba(0, 0, 0, 0.05), -2px -2px 5px rgba(255, 255, 255, 1);
+  --shadow-button-pressed: inset 2px 2px 5px rgba(0, 0, 0, 0.05), inset -1px -1px 2px rgba(255, 255, 255, 0.8);
+
+  --muted-foreground: #64748b;
+}
+
+/* Base Theme Variables */
+:root {
+  --muted-foreground: rgba(255, 255, 255, 0.4);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-rose-500: var(--color-brand-rose);
+  --color-pearl-100: var(--color-brand-pearl);
+  --color-vinyl: var(--surface-vinyl);
+  --color-border: var(--border-color);
+
+  --shadow-skeuo-rest: var(--shadow-button-rest);
+  --shadow-skeuo-pressed: var(--shadow-button-pressed);
+  --shadow-vinyl: var(--shadow-vinyl-groove);
+
+  --blur-glass: 12px;
+
+  --font-sans: var(--font-geist-sans), "Inter", sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+/* Functional Utilities */
+.glass-panel {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel-premium {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.0) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.vinyl-texture {
+  /* Using a gradient that works on both but might need opacity tweak for light mode */
+  background-image: radial-gradient(circle, var(--foreground) 0.5px, transparent 0.5px);
+  background-size: 4px 4px;
+  opacity: 0.8;
+}
+
+.light .vinyl-texture {
+  opacity: 0.15;
+  /* Subtler in light mode */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
