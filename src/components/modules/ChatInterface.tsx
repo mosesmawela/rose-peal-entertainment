@@ -5,6 +5,7 @@ import { useChatStore } from '@/lib/store/useChatStore';
 import { ChatMessage } from '@/components/ui/ChatMessage';
 import { usePathname } from 'next/navigation';
 import { X, Send, Mic, MicOff, Sparkles } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export const ChatInterface = () => {
     const {
@@ -34,6 +35,8 @@ export const ChatInterface = () => {
         setCurrentPage(pathname);
     }, [pathname, setCurrentPage]);
 
+    const [isAdmin, setIsAdmin] = useState(false);
+
     // Auto-scroll to bottom when new messages arrive
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -45,6 +48,33 @@ export const ChatInterface = () => {
             inputRef.current?.focus();
         }
     }, [isOpen]);
+
+    // Check actual admin status
+    useEffect(() => {
+        const checkAdminStatus = async () => {
+            try {
+                const supabase = createClient();
+                const { data: { user } } = await supabase.auth.getUser();
+
+                if (user) {
+                    // Check if user has an explicit admin role or an admin email
+                    const userRole = user.role === 'admin' ||
+                                     user.app_metadata?.role === 'admin' ||
+                                     user.user_metadata?.role === 'admin';
+                    const isEmailAdmin = !!user.email?.endsWith('@rosepearl.com');
+
+                    setIsAdmin(!!(userRole || isEmailAdmin));
+                } else {
+                    setIsAdmin(false);
+                }
+            } catch (error) {
+                console.error('Error checking admin status:', error);
+                setIsAdmin(false);
+            }
+        };
+
+        checkAdminStatus();
+    }, []);
 
     const handleSend = async () => {
         if (!input.trim() || isLoading) return;
@@ -77,7 +107,7 @@ export const ChatInterface = () => {
                     voiceMode,
                     currentPage,
                     userType,
-                    isAdmin: false, // TODO: Check actual admin status
+                    isAdmin,
                 }),
             });
 
@@ -94,9 +124,9 @@ export const ChatInterface = () => {
                 content: data.response,
                 quickActions: data.quickActions || [],
             });
-        } catch (err: any) {
+        } catch (err: Error | unknown) {
             console.error('Chat error:', err);
-            setError(err.message || 'Something went wrong. Please try again.');
+            setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
 
             // Add error message
             addMessage({
@@ -161,7 +191,7 @@ export const ChatInterface = () => {
                         <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-rose-500/20 to-purple-500/20 flex items-center justify-center p-3">
                             <img src="https://ik.imagekit.io/mosesmawela/Rose%20Pearl/logo(icon).svg?updatedAt=1770182492360" alt="Rose" className="w-full h-full" />
                         </div>
-                        <h4 className="text-white font-medium mb-2">Hey, I'm Rose 🌹</h4>
+                        <h4 className="text-white font-medium mb-2">Hey, I&apos;m Rose 🌹</h4>
                         <p className="text-white/50 text-sm max-w-xs mx-auto">
                             Your RosePearl AI assistant. Ask me about artists, music, bookings, or anything else!
                         </p>
