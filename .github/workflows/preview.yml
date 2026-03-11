@@ -28,15 +28,21 @@ jobs:
         run: npm run build
 
       - name: Deploy to Vercel Preview
+        if: env.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
         id: vercel-deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Comment PR
+        if: env.VERCEL_TOKEN != '' && steps.vercel-deploy.outputs.preview-url != ''
         uses: actions/github-script@v7
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         with:
           script: |
             github.rest.issues.createComment({
