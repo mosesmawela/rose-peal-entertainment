@@ -77,7 +77,7 @@ export const ChatInterface = () => {
                     voiceMode,
                     currentPage,
                     userType,
-                    isAdmin: false, // TODO: Check actual admin status
+                    isAdmin: userType === 'admin',
                 }),
             });
 
