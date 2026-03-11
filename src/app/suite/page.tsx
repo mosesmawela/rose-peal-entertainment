@@ -24,11 +24,14 @@ export default function DashboardPage() {
         mockDB.getEvents()
       ]);
 
+      // ⚡ Bolt: Optimize performance by moving `new Date()` out of the loop
+      // Instantiating the current date once avoids O(n) object allocations during filtering
+      const now = new Date();
       setStats({
         artists: artists.length,
         projects: projects.length,
         activeProjects: projects.filter(p => p.status === "In Progress").length,
-        upcomingEvents: events.filter(e => new Date(e.date) > new Date()).length
+        upcomingEvents: events.filter(e => new Date(e.date) > now).length
       });
     };
     fetchStats();
