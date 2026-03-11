@@ -124,7 +124,7 @@ export const ChatInterface = () => {
                 content: data.response,
                 quickActions: data.quickActions || [],
             });
-        } catch (err: Error | unknown) {
+        } catch (err: unknown) {
             console.error('Chat error:', err);
             setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
 
