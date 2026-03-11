@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, Plus, Users, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -34,10 +34,16 @@ export default function ArtistsPage() {
         fetchArtists();
     }, []);
 
-    const filteredArtists = artists.filter(artist =>
-        artist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        artist.genre.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // ⚡ Bolt: Memoize filtered artists to prevent expensive re-calculations on every render.
+    // Impact: Reduces O(N) string matching operations to only run when the search query or artists list changes, improving render performance during input typing.
+    const filteredArtists = useMemo(() => {
+        const query = searchQuery.toLowerCase();
+        if (!query) return artists;
+        return artists.filter(artist =>
+            artist.name.toLowerCase().includes(query) ||
+            artist.genre.toLowerCase().includes(query)
+        );
+    }, [artists, searchQuery]);
 
     return (
         <div className="min-h-screen p-8 space-y-8">
