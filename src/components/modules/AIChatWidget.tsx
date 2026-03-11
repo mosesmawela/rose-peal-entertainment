@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useChatStore } from '@/lib/store/useChatStore';
 
 export const AIChatWidget = () => {
-    const { isOpen, toggleOpen, messages } = useChatStore();
+    const { isOpen, toggleOpen, hasUnreadMessages } = useChatStore();
 
     // Keyboard shortcut: Cmd/Ctrl + J
     useEffect(() => {
@@ -21,9 +21,6 @@ export const AIChatWidget = () => {
 
     // Don't show button if chat is open
     if (isOpen) return null;
-
-    // Check if there are unread messages (simple implementation)
-    const hasUnread = false; // TODO: Implement unread logic if needed
 
     return (
         <button
@@ -42,7 +39,7 @@ export const AIChatWidget = () => {
             />
 
             {/* Unread indicator */}
-            {hasUnread && (
+            {hasUnreadMessages && (
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-neutral-900 animate-pulse" />
             )}
 
