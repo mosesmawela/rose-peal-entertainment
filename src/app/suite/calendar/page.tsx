@@ -56,6 +56,9 @@ export default function CalendarPage() {
     };
 
     const days = getDaysInMonth(currentDate);
+    // Optimization: Cache today's date string once outside the map loop
+    // This avoids redundant object creation and formatting on every cell render
+    const todayDateString = new Date().toDateString();
 
     const prevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
     const nextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
@@ -126,7 +129,7 @@ export default function CalendarPage() {
                         >
                             {date && (
                                 <>
-                                    <span className={`text-sm font-medium block mb-2 ${date.toDateString() === new Date().toDateString()
+                                    <span className={`text-sm font-medium block mb-2 ${date.toDateString() === todayDateString
                                             ? "bg-rose-500 text-white w-7 h-7 flex items-center justify-center rounded-full"
                                             : "text-white/60"
                                         }`}>
