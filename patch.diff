@@ -1,0 +1,24 @@
+--- .github/workflows/preview.yml
++++ .github/workflows/preview.yml
+@@ -23,12 +23,17 @@
+       - name: Deploy to Vercel Preview
+         uses: amondnet/vercel-action@v25
+         id: vercel-deploy
++        env:
++          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
++          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
++          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
++        if: ${{ env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != '' }}
+         with:
+           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+
+       - name: Comment PR
+         uses: actions/github-script@v7
++        env:
++          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
++        if: ${{ env.VERCEL_TOKEN != '' && steps.vercel-deploy.outputs.preview-url != '' }}
+         with:
+           script: |
+             github.rest.issues.createComment({
