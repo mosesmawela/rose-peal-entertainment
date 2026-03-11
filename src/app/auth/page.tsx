@@ -10,6 +10,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [authError, setAuthError] = useState<string | null>(null);
     const router = useRouter();
     const supabase = createClient();
     const { play } = useSoundEffect();
@@ -17,16 +18,20 @@ export default function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setAuthError(null);
 
-        // Placeholder for actual auth until Env Vars are verified
-        // const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-        // For Dev Prototype: Simulate success
-        setTimeout(() => {
-            play('success'); // Audio feedback
-            router.push("/admin/dashboard");
+        if (error) {
+            play('error');
+            setAuthError(error.message);
             setLoading(false);
-        }, 1000);
+            return;
+        }
+
+        play('success'); // Audio feedback
+        router.push("/admin/dashboard");
+        setLoading(false);
     };
 
     return (
@@ -38,6 +43,11 @@ export default function LoginPage() {
                 </div>
 
                 <form onSubmit={handleLogin} className="space-y-6">
+                    {authError && (
+                        <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg text-center">
+                            {authError}
+                        </div>
+                    )}
                     <div className="space-y-2">
                         <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold ml-1">Email ID</label>
                         <input
