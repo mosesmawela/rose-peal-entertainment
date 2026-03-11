@@ -14,6 +14,7 @@ interface ChatStore {
     // State
     isOpen: boolean;
     messages: ChatMessage[];
+    unreadCount: number;
     isLoading: boolean;
     error: string | null;
     voiceMode: boolean;
@@ -39,6 +40,7 @@ export const useChatStore = create<ChatStore>()(
             // Initial state
             isOpen: false,
             messages: [],
+            unreadCount: 0,
             isLoading: false,
             error: null,
             voiceMode: false,
@@ -46,9 +48,15 @@ export const useChatStore = create<ChatStore>()(
             userType: null,
 
             // Actions
-            setOpen: (open) => set({ isOpen: open }),
+            setOpen: (open) => set((state) => ({
+                isOpen: open,
+                unreadCount: open ? 0 : state.unreadCount
+            })),
 
-            toggleOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+            toggleOpen: () => set((state) => ({
+                isOpen: !state.isOpen,
+                unreadCount: !state.isOpen ? 0 : state.unreadCount
+            })),
 
             addMessage: (message) => set((state) => ({
                 messages: [
@@ -59,6 +67,7 @@ export const useChatStore = create<ChatStore>()(
                         timestamp: new Date(),
                     },
                 ],
+                unreadCount: !state.isOpen ? state.unreadCount + 1 : 0
             })),
 
             setLoading: (loading) => set({ isLoading: loading }),
@@ -80,6 +89,7 @@ export const useChatStore = create<ChatStore>()(
             partialize: (state) => ({
                 messages: state.messages.slice(-20), // Only persist last 20 messages
                 voiceMode: state.voiceMode,
+                unreadCount: state.unreadCount,
             }),
         }
     )
