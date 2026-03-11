@@ -140,6 +140,7 @@ export const ChatInterface = () => {
                             : 'bg-white/5 text-white/40 hover:text-white/60'
                             }`}
                         title={voiceMode ? 'Voice mode ON' : 'Voice mode OFF'}
+                        aria-label={voiceMode ? 'Turn Voice mode OFF' : 'Turn Voice mode ON'}
                     >
                         {voiceMode ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
                     </button>
@@ -148,6 +149,7 @@ export const ChatInterface = () => {
                     <button
                         onClick={() => setOpen(false)}
                         className="p-2 rounded-lg bg-white/5 text-white/40 hover:text-white/60 hover:bg-white/10 transition-colors"
+                        aria-label="Close Chat"
                     >
                         <X className="w-4 h-4" />
                     </button>
@@ -211,6 +213,7 @@ export const ChatInterface = () => {
                         onClick={handleSend}
                         disabled={!input.trim() || isLoading}
                         className="px-4 py-2.5 bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 disabled:from-rose-500/50 disabled:to-purple-600/50 rounded-xl text-white text-sm font-medium transition-all disabled:cursor-not-allowed flex items-center gap-2"
+                        aria-label="Send Message"
                     >
                         <Send className="w-4 h-4" />
                     </button>

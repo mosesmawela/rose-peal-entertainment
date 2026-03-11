@@ -63,12 +63,14 @@ export const MusicPlayer = () => {
                         onClick={() => { playSound('click'); setIsHidden(true); }}
                         className="bg-black/60 backdrop-blur-md p-2 rounded-t-lg border-t border-l border-r border-white/10 text-white/50 hover:text-white transition-colors"
                         title="Hide Player"
+                        aria-label="Hide Player"
                     >
                         ✕
                     </button>
                     <button
                         onClick={() => { playSound('click'); setIsMinimized(!isMinimized); }}
                         className="bg-black/60 backdrop-blur-md p-2 rounded-t-lg border-t border-l border-r border-white/10 text-white/50 hover:text-white transition-colors"
+                        aria-label={isMinimized ? "Maximize Player" : "Minimize Player"}
                     >
                         {isMinimized ? <Maximize2 size={16} /> : <Minimize2 size={16} />}
                     </button>
@@ -108,17 +110,18 @@ export const MusicPlayer = () => {
                 {/* Controls (Hidden when minimized) */}
                 {!isMinimized && (
                     <div className="flex items-center gap-4 flex-1 justify-center animate-in fade-in duration-500">
-                        <Button variant="glass" className="!p-2 shadow-none hover:bg-transparent text-white/50 hover:text-white" onClick={handlePrev}>
+                        <Button aria-label="Previous Track" variant="glass" className="!p-2 shadow-none hover:bg-transparent text-white/50 hover:text-white" onClick={handlePrev}>
                             ⏮
                         </Button>
                         <Button
+                            aria-label={isPlaying ? "Pause" : "Play"}
                             variant="primary"
                             className="!w-12 !h-12 !rounded-full !p-0 flex items-center justify-center shadow-[0_0_20px_rgba(225,29,72,0.4)] hover:scale-105 active:scale-95 transition-transform"
                             onClick={togglePlay}
                         >
                             {isPlaying ? "❚❚" : "▶"}
                         </Button>
-                        <Button variant="glass" className="!p-2 shadow-none hover:bg-transparent text-white/50 hover:text-white" onClick={handleNext}>
+                        <Button aria-label="Next Track" variant="glass" className="!p-2 shadow-none hover:bg-transparent text-white/50 hover:text-white" onClick={handleNext}>
                             ⏭
                         </Button>
                     </div>
@@ -127,10 +130,10 @@ export const MusicPlayer = () => {
                 {/* Minimized Controls */}
                 {isMinimized && (
                     <div className="flex items-center gap-2">
-                        <button onClick={handleNext} className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors text-white/50 hover:text-white">
+                        <button aria-label="Next Track" onClick={handleNext} className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors text-white/50 hover:text-white">
                             ⏭
                         </button>
-                        <button onClick={togglePlay} className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                        <button aria-label={isPlaying ? "Pause" : "Play"} onClick={togglePlay} className="w-8 h-8 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors">
                             {isPlaying ? "❚❚" : "▶"}
                         </button>
                     </div>
