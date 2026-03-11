@@ -1,0 +1,7 @@
+--- .github/workflows/preview.yml
++++ .github/workflows/preview.yml
+@@ -28,7 +28,7 @@
+         uses: amondnet/vercel-action@v25
+         id: vercel-deploy
+-        if: \${{ env.VERCEL_TOKEN != '' }}
++        if: env.VERCEL_TOKEN != ''
