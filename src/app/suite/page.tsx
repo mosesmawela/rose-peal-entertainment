@@ -142,7 +142,15 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ title, value, icon: Icon, color, bg }: any) {
+interface StatCardProps {
+  title: string;
+  value: number | string;
+  icon: React.ElementType;
+  color: string;
+  bg: string;
+}
+
+function StatCard({ title, value, icon: Icon, color, bg }: StatCardProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -162,7 +170,15 @@ function StatCard({ title, value, icon: Icon, color, bg }: any) {
   )
 }
 
-function ActionCard({ title, desc, icon, gradient, href }: any) {
+interface ActionCardProps {
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
+  gradient: string;
+  href: string;
+}
+
+function ActionCard({ title, desc, icon, gradient, href }: ActionCardProps) {
   return (
     <Link href={href} className="min-w-[280px]">
       <motion.div
