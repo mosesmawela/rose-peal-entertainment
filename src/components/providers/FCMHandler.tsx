@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import { app } from '@/lib/firebase.config';
+import { saveDeviceToken } from '@/lib/firebase-utils';
 
 export function FCMHandler() {
-    const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+    const [, setNotificationPermission] = useState<NotificationPermission>('default');
 
     useEffect(() => {
         // Only run on client
@@ -27,7 +28,9 @@ export function FCMHandler() {
 
                     if (token) {
                         console.log('[FCM] Token:', token);
-                        // TODO: Send this token to your server/Supabase to associate with the user
+
+                        // Abstracted backend integration call
+                        await saveDeviceToken(token);
                     }
 
                     // Handle incoming messages
