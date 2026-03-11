@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -61,13 +61,21 @@ export default function CalendarPage() {
     const nextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
     const today = () => setCurrentDate(new Date());
 
-    const getEventsForDate = (date: Date) => {
-        return events.filter(e => {
-            const eventDate = new Date(e.date);
-            return eventDate.getDate() === date.getDate() &&
-                eventDate.getMonth() === date.getMonth() &&
-                eventDate.getFullYear() === date.getFullYear();
+    // Group events by date using O(N) single pass rather than O(N*M) lookups
+    const eventsByDate = useMemo(() => {
+        const map = new Map<string, MockEvent[]>();
+        events.forEach(e => {
+            const dateStr = new Date(e.date).toDateString();
+            if (!map.has(dateStr)) {
+                map.set(dateStr, []);
+            }
+            map.get(dateStr)!.push(e);
         });
+        return map;
+    }, [events]);
+
+    const getEventsForDate = (date: Date) => {
+        return eventsByDate.get(date.toDateString()) || [];
     };
 
     const getEventTypeColor = (type: string) => {
