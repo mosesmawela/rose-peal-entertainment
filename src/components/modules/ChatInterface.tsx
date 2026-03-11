@@ -94,9 +94,9 @@ export const ChatInterface = () => {
                 content: data.response,
                 quickActions: data.quickActions || [],
             });
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Chat error:', err);
-            setError(err.message || 'Something went wrong. Please try again.');
+            setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
 
             // Add error message
             addMessage({
