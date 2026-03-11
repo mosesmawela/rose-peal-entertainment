@@ -141,7 +141,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy to Vercel
-        if: ${{ env.VERCEL_TOKEN != '' }}
+        if: ${{ secrets.VERCEL_TOKEN != '' }}
         uses: amondnet/vercel-action@v41.1.4
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
