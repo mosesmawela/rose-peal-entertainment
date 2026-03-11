@@ -28,16 +28,20 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
                             <ReactMarkdown
                                 components={{
                                     p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                    a: ({ href, children }) => (
-                                        <a
-                                            href={href}
-                                            className="text-rose-400 hover:text-rose-300 underline"
-                                            target={href?.startsWith('http') ? '_blank' : undefined}
-                                            rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-                                        >
-                                            {children}
-                                        </a>
-                                    ),
+                                    a: ({ href, children }) => {
+                                        const isSafeUrl = href && !/^\s*(javascript|vbscript|data):/i.test(href);
+                                        const safeHref = isSafeUrl ? href : undefined;
+                                        return (
+                                            <a
+                                                href={safeHref}
+                                                className="text-rose-400 hover:text-rose-300 underline"
+                                                target={safeHref?.startsWith('http') ? '_blank' : undefined}
+                                                rel={safeHref?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                            >
+                                                {children}
+                                            </a>
+                                        );
+                                    },
                                     ul: ({ children }) => <ul className="list-disc list-inside mb-2">{children}</ul>,
                                     ol: ({ children }) => <ol className="list-decimal list-inside mb-2">{children}</ol>,
                                     li: ({ children }) => <li className="mb-1">{children}</li>,
