@@ -17,7 +17,7 @@ export const useMockSubmission = () => {
     });
     const { play } = useSoundEffect();
 
-    const submit = async (formData: any) => {
+    const submit = async (formData?: unknown) => {
         setStatus({ isLoading: true, isSuccess: false, error: null });
         play('click');
 
