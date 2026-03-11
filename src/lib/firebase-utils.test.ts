@@ -1,7 +1,7 @@
 import { test, mock } from 'node:test';
 import assert from 'node:assert';
 import type { Analytics } from 'firebase/analytics';
-import { logCustomEvent, logger } from './firebase-utils.ts';
+import { logCustomEvent, logger } from './firebase-utils';
 
 test('logCustomEvent utility', async (t) => {
     await t.test('calls logEvent with correct arguments when analytics is provided', () => {
