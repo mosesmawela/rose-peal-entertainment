@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import { app } from '@/lib/firebase.config';
+import { createClient } from '@/lib/supabase/client';
 
 export function FCMHandler() {
     const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
@@ -27,7 +28,13 @@ export function FCMHandler() {
 
                     if (token) {
                         console.log('[FCM] Token:', token);
-                        // TODO: Send this token to your server/Supabase to associate with the user
+
+                        const supabase = createClient();
+                        const { data: { user } } = await supabase.auth.getUser();
+
+                        if (user) {
+                            await supabase.from('fcm_tokens').upsert({ user_id: user.id, token: token }, { onConflict: 'token' });
+                        }
                     }
 
                     // Handle incoming messages
