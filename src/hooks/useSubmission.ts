@@ -31,8 +31,6 @@ export const useSubmission = () => {
             // Since we don't have the real URL yet, we'll log to console and simulate success 
             // so the user experience is "working" until the URL is provided.
 
-            console.log("Submitting to n8n:", data);
-
             const response = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
