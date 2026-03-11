@@ -1,91 +1,128 @@
-import { VinylCard } from "@/components/skeuomorphic/VinylCard";
-import { createClient } from "@/lib/supabase/client";
+"use client";
+
+import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { TrackCard } from "@/components/modules/TrackCard";
 import { newReleases } from "@/data/musicData";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { Sparkles, Disc3, Radio, Headphones } from "lucide-react";
 
-interface Release {
-    id: string;
-    title: string;
-    slug: string;
-    cover_url: string | null;
-    release_date: string | null;
-    type: string | null;
-    description: string | null;
-    spotify_embed_url: string | null;
-    link_tree_url: string | null;
-    is_featured: boolean;
-    artists: {
-        name: string;
-    };
-}
+gsap.registerPlugin(ScrollTrigger);
 
-export const dynamic = 'force-dynamic';
+export default function ReleasesPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-export default async function ReleasesPage() {
-    const supabase = createClient();
+  useGSAP(() => {
+    // Header animation
+    gsap.from(".page-header", {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    });
 
-    const { data: releases, error } = await supabase
-        .from('releases')
-        .select(`
-            id,
-            title,
-            slug,
-            cover_url,
-            release_date,
-            type,
-            description,
-            spotify_embed_url,
-            link_tree_url,
-            is_featured,
-            artists (
-                name
-            )
-        `)
-        .order('release_date', { ascending: false });
+    // Stagger reveal for track cards
+    gsap.from(".track-card-wrapper", {
+      y: 80,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".tracks-container",
+        start: "top 80%",
+      },
+    });
 
-    // Fallback to mock data if Supabase is not configured
-    const MOCK_RELEASES = [
-        { id: '1', title: "Midnight Rose", artists: { name: "The Weeknd" }, cover_url: null, spotify_embed_url: null, link_tree_url: null, description: null },
-        { id: '2', title: "Solar Power", artists: { name: "Lorde" }, cover_url: null, spotify_embed_url: null, link_tree_url: null, description: null },
-        { id: '3', title: "Renaissance", artists: { name: "Beyoncé" }, cover_url: null, spotify_embed_url: null, link_tree_url: null, description: null },
-        { id: '4', title: "Gemini Rights", artists: { name: "Steve Lacy" }, cover_url: null, spotify_embed_url: null, link_tree_url: null, description: null },
-        { id: '5', title: "SOS", artists: { name: "SZA" }, cover_url: null, spotify_embed_url: null, link_tree_url: null, description: null },
-        { id: '6', title: "Un Verano Sin Ti", artists: { name: "Bad Bunny" }, cover_url: null, spotify_embed_url: null, link_tree_url: null, description: null },
-    ];
+    // CTA animation
+    gsap.from(".cta-section", {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: ".cta-section",
+        start: "top 90%",
+      },
+    });
 
-    const displayReleases = (releases && !error) ? releases : MOCK_RELEASES;
+  }, { scope: containerRef });
 
-    return (
-        <div className="min-h-screen p-8 lg:p-20">
-            <header className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6 border-b border-white/10 pb-6">
-                <div>
-                    <h1 className="text-4xl lg:text-5xl font-bold tracking-tighter mb-2">CATALOG</h1>
-                    <p className="text-white/40 uppercase tracking-widest text-xs">Browse all latest drops</p>
-                </div>
-                <div className="flex gap-4 text-xs font-mono uppercase text-white/40">
-                    <span className="text-rose-500 cursor-pointer">All</span>
-                    <span className="hover:text-white cursor-pointer transition-colors">Albums</span>
-                    <span className="hover:text-white cursor-pointer transition-colors">EPs</span>
-                    <span className="hover:text-white cursor-pointer transition-colors">Singles</span>
-                </div>
-            </header>
+  return (
+    <main ref={containerRef} className="min-h-screen bg-black text-white relative overflow-x-hidden">
+      {/* Background effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-rose-500/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-[120px]" />
+      </div>
 
-            <div className="space-y-8">
-                {newReleases.map((track, index) => (
-                    <TrackCard key={track.id} track={track} index={index} />
-                ))}
+      <div className="relative z-10 p-8 lg:p-20 pt-32">
+        {/* Header */}
+        <header className="page-header mb-20 flex flex-col md:flex-row justify-between items-end gap-6 border-b border-white/10 pb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <Disc3 className="w-5 h-5 text-rose-500" />
+              <span className="text-rose-400 font-body text-sm uppercase tracking-[0.3em]">Our Catalog</span>
             </div>
+            <h1 className="font-display text-5xl lg:text-7xl tracking-tight text-white mb-2">
+              CATALOG
+            </h1>
+            <p className="text-white/40 uppercase tracking-widest text-xs font-body">Browse all latest drops</p>
+          </div>
+          
+          <div className="flex gap-6 text-sm font-body uppercase tracking-wider text-white/40">
+            <button className="text-rose-400 hover:text-white transition-colors flex items-center gap-2">
+              <Radio className="w-4 h-4" />
+              All
+            </button>
+            <button className="hover:text-white transition-colors">Albums</button>
+            <button className="hover:text-white transition-colors">EPs</button>
+            <button className="hover:text-white transition-colors">Singles</button>
+          </div>
+        </header>
 
-            <div className="mt-20 text-center">
-                <p className="text-white/40 mb-6">Want to submit your music?</p>
-                <Link href="/submissions">
-                    <Button variant="primary" className="!py-4 !px-8">
-                        Submit Your Music
-                    </Button>
-                </Link>
+        {/* Track Cards */}
+        <div className="tracks-container space-y-16 lg:space-y-24">
+          {newReleases.map((track, index) => (
+            <div key={track.id} className="track-card-wrapper">
+              <TrackCard track={track} index={index} />
             </div>
+          ))}
         </div>
-    );
+
+        {/* CTA Section */}
+        <div className="cta-section mt-24 lg:mt-32 text-center relative">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          </div>
+          
+          <div className="relative bg-black py-16 px-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-500/10 rounded-full mb-6">
+              <Headphones className="w-4 h-4 text-rose-400" />
+              <span className="text-rose-400 text-sm uppercase tracking-widest font-body">Got Music?</span>
+            </div>
+            
+            <h2 className="font-display text-4xl lg:text-5xl text-white mb-4">
+              Submit Your Music
+            </h2>
+            <p className="text-white/50 max-w-md mx-auto mb-8 font-body">
+              Have a track you think would fit our label? We&apos;re always looking for fresh talent and unique sounds.
+            </p>
+            
+            <Link href="/submissions">
+              <Button variant="primary" className="group">
+                Submit Your Music
+                <Sparkles className="w-4 h-4 ml-2 group-hover:scale-110 transition-transform" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Footer spacing */}
+        <div className="h-20" />
+      </div>
+    </main>
+  );
 }

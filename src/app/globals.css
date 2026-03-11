@@ -5,11 +5,17 @@
   --color-brand-black: #050505;
   --color-brand-charcoal: #121212;
   --color-brand-rose: #e11d48;
+  --color-brand-rose-light: #f43f5e;
   --color-brand-pearl: #f5f5f5;
   /* Updated to be lighter */
   --color-brand-gold: #fbbf24;
   --color-brand-white: #ffffff;
   --color-brand-slate: #1e293b;
+
+  /* Custom accent colors */
+  --color-warm-coral: #ff6b6b;
+  --color-deep-plum: #4a1942;
+  --color-muted-gold: #c9a227;
 
   /* SKEKEUOMORPHIC SHADOWS - DARK (DEFAULT) */
   --shadow-vinyl-groove: inset 0 0 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(255, 255, 255, 0.1);
@@ -25,6 +31,7 @@
 
   /* Animations */
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Light Theme Overrides */
@@ -54,6 +61,7 @@
   --color-foreground: var(--foreground);
 
   --color-rose-500: var(--color-brand-rose);
+  --color-rose-400: var(--color-brand-rose-light);
   --color-pearl-100: var(--color-brand-pearl);
   --color-vinyl: var(--surface-vinyl);
   --color-border: var(--border-color);
@@ -64,8 +72,11 @@
 
   --blur-glass: 12px;
 
-  --font-sans: var(--font-geist-sans), "Inter", sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-display: var(--font-display), sans-serif;
+  --font-serif: var(--font-serif), serif;
+  --font-body: var(--font-body), sans-serif;
+  --font-sans: var(--font-sans), sans-serif;
+  --font-mono: var(--font-mono), monospace;
 }
 
 /* Functional Utilities */
@@ -105,9 +116,242 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Noise Texture Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-brand-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-rose);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-rose-light);
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(225, 29, 72, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Animation Classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s var(--ease-smooth) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s var(--ease-smooth) forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.6s var(--ease-smooth) forwards;
+}
+
+.animate-slide-left {
+  animation: slide-left 0.8s var(--ease-smooth) forwards;
+}
+
+.animate-slide-right {
+  animation: slide-right 0.8s var(--ease-smooth) forwards;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 20s linear infinite;
+}
+
+/* Stagger delays for children */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+.stagger-7 { animation-delay: 0.7s; }
+.stagger-8 { animation-delay: 0.8s; }
+
+/* Text gradient utilities */
+.text-gradient {
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-rose {
+  background: linear-gradient(135deg, #fff 0%, #f43f5e 50%, #e11d48 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #c9a227 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient border */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(225,29,72,0.5));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Spotlight effect */
+.spotlight {
+  position: relative;
+}
+
+.spotlight::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(225,29,72,0.15) 0%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 

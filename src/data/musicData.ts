@@ -8,6 +8,7 @@ export interface Track {
   coverImage: string;
   genre?: string;
   releaseDate?: string;
+  spotifyEmbed?: string;
 }
 
 export const newReleases: Track[] = [
@@ -20,7 +21,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/kd30nnp",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/buya-ekhaya-cover.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/album/3PPaPMwxGz7TECQkbvTzzM?utm_source=generator&theme=0"
   },
   {
     id: "2",
@@ -31,7 +33,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/86aa7y8",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/prince-benza-ngiyabonga.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/track/7sqc3gyLkH2MPKhcxrWV6e?utm_source=generator&theme=0"
   },
   {
     id: "3",
@@ -42,7 +45,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/p5rqykw",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/016-bangerboyz-chelete.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/album/3O36HKFqdYaf4nQmGYdoWn?utm_source=generator&theme=0"
   },
   {
     id: "4",
@@ -53,7 +57,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/arv07o0",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/kinglee-beats-emanonini.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/album/2mSMsEjTQhmhy97VtLxosO?utm_source=generator&theme=0"
   },
   {
     id: "5",
@@ -64,7 +69,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/xyq13jk",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/uncool-angels-dali.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/album/5pFJbY2C8a63n4KHz0W4jQ?utm_source=generator&theme=0"
   },
   {
     id: "6",
@@ -75,7 +81,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/dg20xeg",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/springle-street-fighter.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/album/0HBBj8se8VPJMl8qi3i4Cf?utm_source=generator&theme=0"
   },
   {
     id: "7",
@@ -86,7 +93,8 @@ export const newReleases: Track[] = [
     previewUrl: "https://ffm.to/k4ljne2",
     coverImage: "https://ik.imagekit.io/mosesmawela/Rose%20Pearl/dj-soweto-3rd-eye.jpg",
     genre: "Amapiano",
-    releaseDate: "2024"
+    releaseDate: "2024",
+    spotifyEmbed: "https://open.spotify.com/embed/album/2HP1ae43nvlbI29glDZhhg?utm_source=generator&theme=0"
   },
   {
     id: "8",
