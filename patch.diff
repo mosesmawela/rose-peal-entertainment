@@ -1,0 +1,14 @@
+--- .github/workflows/preview.yml
++++ .github/workflows/preview.yml
+@@ -23,12 +23,13 @@
+       - name: Deploy to Vercel Preview
+         uses: amondnet/vercel-action@v25
+         id: vercel-deploy
++        env:
++          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+         with:
+           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+-        env:
+-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

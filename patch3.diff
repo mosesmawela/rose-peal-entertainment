@@ -1,0 +1,10 @@
+--- .github/workflows/ci.yml
++++ .github/workflows/ci.yml
+@@ -141,6 +141,7 @@
+         uses: actions/checkout@v4
+
+       - name: Deploy to Vercel
++        if: ${{ secrets.VERCEL_TOKEN != '' }}
+         uses: amondnet/vercel-action@v25
+         env:
+           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
