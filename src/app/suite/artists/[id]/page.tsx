@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, use } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ArrowLeft, Edit, Globe, Instagram, Music, Twitter, Users, FolderOpen, Calendar, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
