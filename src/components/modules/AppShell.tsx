@@ -12,6 +12,8 @@ import { BackgroundLogo } from "@/components/modules/BackgroundLogo";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { useEffect, useState } from "react";
 
+import { AIChatWidget } from "@/components/modules/AIChatWidget";
+
 export function AppShell({ children }: { children: React.ReactNode }) {
     const { hasEntered } = useAudioStore();
     const [mounted, setMounted] = useState(false);
@@ -50,6 +52,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     </div>
                     <Footer />
                     <MusicPlayer />
+                    <AIChatWidget />
                 </div>
             )}
         </>

@@ -14,6 +14,7 @@ interface ChatStore {
     // State
     isOpen: boolean;
     messages: ChatMessage[];
+    unreadCount: number;
     isLoading: boolean;
     error: string | null;
     voiceMode: boolean;
@@ -24,6 +25,7 @@ interface ChatStore {
     setOpen: (open: boolean) => void;
     toggleOpen: () => void;
     addMessage: (message: Omit<ChatMessage, 'id' | 'timestamp'>) => void;
+    markAsRead: () => void;
     setLoading: (loading: boolean) => void;
     setError: (error: string | null) => void;
     toggleVoiceMode: () => void;
@@ -39,6 +41,7 @@ export const useChatStore = create<ChatStore>()(
             // Initial state
             isOpen: false,
             messages: [],
+            unreadCount: 0,
             isLoading: false,
             error: null,
             voiceMode: false,
@@ -46,9 +49,9 @@ export const useChatStore = create<ChatStore>()(
             userType: null,
 
             // Actions
-            setOpen: (open) => set({ isOpen: open }),
+            setOpen: (open) => set((state) => ({ isOpen: open, unreadCount: open ? 0 : state.unreadCount })),
 
-            toggleOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+            toggleOpen: () => set((state) => ({ isOpen: !state.isOpen, unreadCount: !state.isOpen ? 0 : state.unreadCount })),
 
             addMessage: (message) => set((state) => ({
                 messages: [
@@ -59,7 +62,10 @@ export const useChatStore = create<ChatStore>()(
                         timestamp: new Date(),
                     },
                 ],
+                unreadCount: (!state.isOpen && message.role === 'assistant') ? state.unreadCount + 1 : state.unreadCount,
             })),
+
+            markAsRead: () => set({ unreadCount: 0 }),
 
             setLoading: (loading) => set({ isLoading: loading }),
 
@@ -80,6 +86,7 @@ export const useChatStore = create<ChatStore>()(
             partialize: (state) => ({
                 messages: state.messages.slice(-20), // Only persist last 20 messages
                 voiceMode: state.voiceMode,
+                unreadCount: state.unreadCount,
             }),
         }
     )
