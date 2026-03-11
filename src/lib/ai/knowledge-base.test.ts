@@ -1,6 +1,6 @@
 import { describe, test } from 'node:test';
 import * as assert from 'node:assert';
-import { findFAQ } from './knowledge-base.ts';
+import { findFAQ } from './knowledge-base';
 
 describe('findFAQ', () => {
     test('finds FAQ by exact question match', () => {
