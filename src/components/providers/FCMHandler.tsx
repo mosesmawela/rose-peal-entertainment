@@ -5,7 +5,7 @@ import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import { app } from '@/lib/firebase.config';
 
 export function FCMHandler() {
-    const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>('default');
+    const [, setNotificationPermission] = useState<NotificationPermission>('default');
 
     useEffect(() => {
         // Only run on client
@@ -26,16 +26,14 @@ export function FCMHandler() {
                     });
 
                     if (token) {
-                        console.log('[FCM] Token:', token);
                         // TODO: Send this token to your server/Supabase to associate with the user
                     }
 
                     // Handle incoming messages
-                    onMessage(messaging, (payload) => {
-                        console.log('[FCM] Message received:', payload);
+                    onMessage(messaging, (_payload) => {
                         // You can show a toast or custom UI here
-                        // new Notification(payload.notification?.title || 'New Message', {
-                        //   body: payload.notification?.body,
+                        // new Notification(_payload.notification?.title || 'New Message', {
+                        //   body: _payload.notification?.body,
                         //   icon: '/icon.png'
                         // });
                     });
