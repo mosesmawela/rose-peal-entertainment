@@ -30,13 +30,17 @@ jobs:
       - name: Deploy to Vercel Preview
         uses: amondnet/vercel-action@v25
         id: vercel-deploy
+        if: env.VERCEL_TOKEN != ''
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Comment PR
         uses: actions/github-script@v7
+        if: env.VERCEL_TOKEN != ''
         with:
           script: |
             github.rest.issues.createComment({
@@ -45,3 +49,5 @@ jobs:
               repo: context.repo.repo,
               body: `🚀 Preview deployment ready!\n\nURL: ${{ steps.vercel-deploy.outputs.preview-url }}`
             });
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
