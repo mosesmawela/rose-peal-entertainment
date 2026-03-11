@@ -14,9 +14,11 @@ export async function POST(request: NextRequest) {
             conversationHistory = [],
             voiceMode = false,
             currentPage = '/',
-            userType = 'fan',
-            isAdmin = false
+            userType = 'fan'
         } = body;
+
+        // SECURITY FIX: Never trust client-provided isAdmin flag
+        const isAdmin = false; // TODO: Implement proper server-side auth check
 
         if (!message || typeof message !== 'string') {
             return NextResponse.json(
