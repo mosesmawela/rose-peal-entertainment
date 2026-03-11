@@ -9,6 +9,7 @@ import { ToastProvider } from "@/providers/ToastContext";
 import { FirebaseAnalytics } from "@/components/providers/FirebaseAnalytics";
 import { FCMHandler } from "@/components/providers/FCMHandler";
 import { NoiseOverlay } from "@/components/modules/NoiseOverlay";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const bebasNeue = Bebas_Neue({ 
@@ -78,7 +79,9 @@ export default function RootLayout({
             <AIChatWidget />
             <ChatInterface />
             {/* Firebase Integration */}
-            <FirebaseAnalytics />
+            <Suspense fallback={null}>
+              <FirebaseAnalytics />
+            </Suspense>
             <FCMHandler />
           </ToastProvider>
         </ThemeProvider>
