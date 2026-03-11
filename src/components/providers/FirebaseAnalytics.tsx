@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { initFirebaseServices } from '@/lib/firebase.config';
 import { logPageView } from '@/lib/firebase-utils';
 
-export function FirebaseAnalytics() {
+function FirebaseAnalyticsInner() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
@@ -24,4 +24,12 @@ export function FirebaseAnalytics() {
     }, [pathname, searchParams]);
 
     return null;
+}
+
+export function FirebaseAnalytics() {
+    return (
+        <Suspense fallback={null}>
+            <FirebaseAnalyticsInner />
+        </Suspense>
+    );
 }
