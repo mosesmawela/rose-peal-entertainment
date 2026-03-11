@@ -13,6 +13,9 @@ export function FCMHandler() {
 
         const initMessaging = async () => {
             try {
+                // Return early if no project ID to avoid crash in missing dev env config
+                if (!app.options.projectId) return;
+
                 const messaging = getMessaging(app);
 
                 // Request permission
