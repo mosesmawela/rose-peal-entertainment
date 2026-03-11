@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useSoundEffect } from "@/hooks/useSoundEffect";
 
@@ -11,15 +10,11 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const supabase = createClient();
     const { play } = useSoundEffect();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-
-        // Placeholder for actual auth until Env Vars are verified
-        // const { error } = await supabase.auth.signInWithPassword({ email, password });
 
         // For Dev Prototype: Simulate success
         setTimeout(() => {
