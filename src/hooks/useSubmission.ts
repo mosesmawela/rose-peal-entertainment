@@ -19,19 +19,13 @@ export const useSubmission = () => {
     });
     const { play } = useSoundEffect();
 
-    const submit = async (data: any) => {
+    const submit = async (data: unknown) => {
         setStatus({ isLoading: true, isSuccess: false, error: null });
         play('click');
 
         try {
             // In a real app, you would fetch from the env variable
             // const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || N8N_WEBHOOK_URL;
-
-            // For now we will simulate a successful log if no URL is present, or try to fetch if we have one.
-            // Since we don't have the real URL yet, we'll log to console and simulate success 
-            // so the user experience is "working" until the URL is provided.
-
-            console.log("Submitting to n8n:", data);
 
             const response = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
