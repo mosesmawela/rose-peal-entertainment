@@ -90,6 +90,7 @@ export function NewReleaseSlider({ tracks }: NewReleaseSliderProps) {
       <button
         onClick={() => scroll('left')}
         className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-black/80 border border-white/10 flex items-center justify-center hover:bg-rose-500 transition-colors z-10"
+        aria-label="Scroll Left"
       >
         <ChevronLeft className="w-5 h-5 text-white" />
       </button>
@@ -97,6 +98,7 @@ export function NewReleaseSlider({ tracks }: NewReleaseSliderProps) {
       <button
         onClick={() => scroll('right')}
         className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-black/80 border border-white/10 flex items-center justify-center hover:bg-rose-500 transition-colors z-10"
+        aria-label="Scroll Right"
       >
         <ChevronRight className="w-5 h-5 text-white" />
       </button>
