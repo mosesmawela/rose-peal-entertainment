@@ -9,6 +9,8 @@ interface SubmissionState {
     error: string | null;
 }
 
+export type SubmissionData = Record<string, unknown>;
+
 const N8N_WEBHOOK_URL = "http://localhost:5678/webhook/rose-pearl-submission";
 
 export const useSubmission = () => {
@@ -19,7 +21,7 @@ export const useSubmission = () => {
     });
     const { play } = useSoundEffect();
 
-    const submit = async (data: any) => {
+    const submit = async (data: SubmissionData) => {
         setStatus({ isLoading: true, isSuccess: false, error: null });
         play('click');
 
