@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Users, FolderOpen, Bot, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -88,7 +89,7 @@ function StatCard({
     change,
     trend
 }: {
-    icon: any;
+    icon: React.ElementType;
     label: string;
     value: string;
     change: string;
