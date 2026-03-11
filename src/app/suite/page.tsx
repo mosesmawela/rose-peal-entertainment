@@ -24,11 +24,14 @@ export default function DashboardPage() {
         mockDB.getEvents()
       ]);
 
+      // PERFORMANCE OPTIMIZATION: Cache current Date outside of loop to avoid repeated object instantiation
+      // Reduces memory allocations and CPU cycles when filtering large event arrays.
+      const now = new Date();
       setStats({
         artists: artists.length,
         projects: projects.length,
         activeProjects: projects.filter(p => p.status === "In Progress").length,
-        upcomingEvents: events.filter(e => new Date(e.date) > new Date()).length
+        upcomingEvents: events.filter(e => new Date(e.date) > now).length
       });
     };
     fetchStats();
