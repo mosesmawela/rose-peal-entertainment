@@ -19,7 +19,7 @@ export const useSubmission = () => {
     });
     const { play } = useSoundEffect();
 
-    const submit = async (data: any) => {
+    const submit = async (data?: unknown) => {
         setStatus({ isLoading: true, isSuccess: false, error: null });
         play('click');
 
