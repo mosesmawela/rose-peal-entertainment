@@ -80,6 +80,9 @@ export default function CalendarPage() {
         }
     };
 
+    // ⚡ Bolt: Cache today's date string outside the map loop to prevent redundant Date object creation and formatting
+    const todayString = new Date().toDateString();
+
     return (
         <div className="min-h-screen p-8 space-y-8 flex flex-col">
 
@@ -126,7 +129,7 @@ export default function CalendarPage() {
                         >
                             {date && (
                                 <>
-                                    <span className={`text-sm font-medium block mb-2 ${date.toDateString() === new Date().toDateString()
+                                    <span className={`text-sm font-medium block mb-2 ${date.toDateString() === todayString
                                             ? "bg-rose-500 text-white w-7 h-7 flex items-center justify-center rounded-full"
                                             : "text-white/60"
                                         }`}>
