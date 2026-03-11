@@ -94,9 +94,10 @@ export const ChatInterface = () => {
                 content: data.response,
                 quickActions: data.quickActions || [],
             });
-        } catch (err: any) {
-            console.error('Chat error:', err);
-            setError(err.message || 'Something went wrong. Please try again.');
+        } catch (error: unknown) {
+            console.error('Chat error:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Something went wrong. Please try again.';
+            setError(errorMessage);
 
             // Add error message
             addMessage({
@@ -161,7 +162,7 @@ export const ChatInterface = () => {
                         <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-rose-500/20 to-purple-500/20 flex items-center justify-center p-3">
                             <img src="https://ik.imagekit.io/mosesmawela/Rose%20Pearl/logo(icon).svg?updatedAt=1770182492360" alt="Rose" className="w-full h-full" />
                         </div>
-                        <h4 className="text-white font-medium mb-2">Hey, I'm Rose 🌹</h4>
+                        <h4 className="text-white font-medium mb-2">Hey, I&apos;m Rose 🌹</h4>
                         <p className="text-white/50 text-sm max-w-xs mx-auto">
                             Your RosePearl AI assistant. Ask me about artists, music, bookings, or anything else!
                         </p>
