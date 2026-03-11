@@ -6,6 +6,7 @@ on:
 
 env:
   NODE_VERSION: '20'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   deploy-preview:
@@ -28,15 +29,18 @@ jobs:
         run: npm run build
 
       - name: Deploy to Vercel Preview
-        uses: amondnet/vercel-action@v25
+        uses: amondnet/vercel-action@v41.1.4
+        if: ${{ secrets.VERCEL_TOKEN != '' }}
         id: vercel-deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment PR
         uses: actions/github-script@v7
+        if: ${{ secrets.VERCEL_TOKEN != '' }}
         with:
           script: |
             github.rest.issues.createComment({

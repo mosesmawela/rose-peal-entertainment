@@ -19,6 +19,7 @@ export const useSubmission = () => {
     });
     const { play } = useSoundEffect();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const submit = async (data: any) => {
         setStatus({ isLoading: true, isSuccess: false, error: null });
         play('click');
