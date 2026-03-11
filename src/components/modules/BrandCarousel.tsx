@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 interface BrandInfo {
@@ -18,29 +18,12 @@ const BRANDS: BrandInfo[] = [
   { name: "BAL", domain: "balenciaga.com", logoUrl: "" },
 ];
 
-const getLogoUrl = (brandName: string) => `/api/brands?brand=${encodeURIComponent(brandName)}`;
+const getLogoUrl = (domain: string) => `https://logo.clearbit.com/${domain}`;
 
 function BrandLogo({ brand }: { brand: BrandInfo }) {
   const [error, setError] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchLogo() {
-      try {
-        const response = await fetch(getLogoUrl(brand.name));
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data = await response.json();
-        setLogoUrl(data.logoUrl);
-      } catch (err) {
-        console.error("Error fetching logo:", err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchLogo();
-  }, [brand.name]);
+  const [logoUrl] = useState<string | null>(getLogoUrl(brand.domain));
+  const loading = false;
 
   if (loading || !logoUrl || error) {
     return (

@@ -1,9 +1,8 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue, Playfair_Display, Syne } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/modules/AppShell";
-import { AIChatWidget } from "@/components/modules/AIChatWidget";
-import { ChatInterface } from "@/components/modules/ChatInterface";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastContext";
 import { FirebaseAnalytics } from "@/components/providers/FirebaseAnalytics";
@@ -11,23 +10,23 @@ import { FCMHandler } from "@/components/providers/FCMHandler";
 import { NoiseOverlay } from "@/components/modules/NoiseOverlay";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const bebasNeue = Bebas_Neue({ 
-  weight: "400", 
+const bebasNeue = Bebas_Neue({
+  weight: "400",
   variable: "--font-display",
-  display: "swap" 
+  display: "swap"
 });
-const playfair = Playfair_Display({ 
-  subsets: ["latin"], 
+const playfair = Playfair_Display({
+  subsets: ["latin"],
   variable: "--font-serif",
   display: "swap"
 });
-const syne = Syne({ 
-  subsets: ["latin"], 
+const syne = Syne({
+  subsets: ["latin"],
   variable: "--font-body",
   display: "swap"
 });
-const mono = Inter({ 
-  subsets: ["latin"], 
+const mono = Inter({
+  subsets: ["latin"],
   variable: "--font-mono",
   display: "swap"
 });
@@ -74,11 +73,15 @@ export default function RootLayout({
         >
           <ToastProvider>
             <NoiseOverlay />
-            <AppShell>{children}</AppShell>
-            <AIChatWidget />
-            <ChatInterface />
+            <AppShell>
+              <Suspense fallback={<div className="min-h-screen bg-black" />}>
+                {children}
+              </Suspense>
+            </AppShell>
             {/* Firebase Integration */}
-            <FirebaseAnalytics />
+            <Suspense fallback={null}>
+              <FirebaseAnalytics />
+            </Suspense>
             <FCMHandler />
           </ToastProvider>
         </ThemeProvider>
