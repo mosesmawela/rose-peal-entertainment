@@ -1,4 +1,5 @@
-import { Analytics, logEvent } from "firebase/analytics";
+import type { Analytics } from "firebase/analytics";
+import { logEvent } from "firebase/analytics";
 
 export const logPageView = (analytics: Analytics | null, pageName: string) => {
     if (analytics) {
