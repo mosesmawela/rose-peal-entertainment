@@ -23,7 +23,6 @@ export const CustomCursor = () => {
 
         const handleMouseOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            // Check if target is interactive (link, button, or has specific class)
             const isClickable = target.closest("a, button, [role='button'], input, textarea, .clickable");
             setIsHovering(!!isClickable);
         };
