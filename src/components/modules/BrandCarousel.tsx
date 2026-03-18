@@ -18,6 +18,8 @@ const BRANDS: BrandInfo[] = [
   { name: "BAL", domain: "balenciaga.com", logoUrl: "" },
 ];
 
+const CAROUSEL_BRANDS = [...BRANDS, ...BRANDS, ...BRANDS];
+
 const getLogoUrl = (domain: string) => `https://logo.clearbit.com/${domain}`;
 
 function BrandLogo({ brand }: { brand: BrandInfo }) {
@@ -62,7 +64,7 @@ export function BrandCarousel() {
 
         {/* Animated Track */}
         <div className="flex whitespace-nowrap animate-carousel hover:pause-animation">
-          {[...BRANDS, ...BRANDS, ...BRANDS].map((brand, i) => (
+          {CAROUSEL_BRANDS.map((brand, i) => (
             <div
               key={i}
               className="mx-8 lg:mx-16 flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity duration-300"
