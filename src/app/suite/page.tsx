@@ -142,7 +142,15 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ title, value, icon: Icon, color, bg }: any) {
+interface StatCardProps {
+  title: string;
+  value: string | number;
+  icon: React.ElementType;
+  color: string;
+  bg: string;
+}
+
+function StatCard({ title, value, icon: Icon, color, bg }: StatCardProps) {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
